@@ -34,8 +34,14 @@
         
         <!-- Voting Status -->
         <div class="item alert alert-info mb-4">
-            <strong>Total Votes Cast: </strong><span id="totalVotes">0</span>
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Add Candidate</button>
+            <div>
+                <strong>Total Votes Cast: </strong>
+                <span id="totalVotes">0</span>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#openreset">↻</button>
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Add Candidate</button>
+            </div>
             <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -49,8 +55,22 @@
                             <label for="fname">Party List:</label><br>
                             <input type="text" class="form-control" id="inputedPartList" placeholder="Party List Name">
                         </div>
-                            <div class="modal-footer">
+                        <div class="modal-footer">
                             <button id="candidate" type="button" class="btn btn-success" data-dismiss="modal">Add</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="openreset" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Are You Sure?</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="reset" type="button" class="btn btn-success" data-dismiss="modal">Reset</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -127,9 +147,9 @@
                     $('#inputedCandidate').val('');
                     $('#inputedPartList').val('');
 
-                    alert('Candidate added successfully!');
+                    // alert('Candidate added successfully!');
                 } else {
-                    alert('Please fillup both fields.');
+                    // alert('Please fillup both fields.');
                 }
                 console.log(candidates);
 
@@ -210,8 +230,25 @@
                     $('#liveVoteCount' + i).text(candidateVotes[i]);
                 }
             };
-        
+            
+            $('#reset').click(function() {
+                totalVotes = 0;
+                $('#totalVotes').text(totalVotes);
 
+                for (let i = 0; i < candidates.length; i++) {
+                    candidateVotes[i] = 0;
+
+                    $('#voteCount' + i).text(0);
+                    $('#progressBar' + i)
+                        .css('width', '0%')
+                        .attr('aria-valuenow', 0)
+                        .text('0%')
+                        .removeClass('bg-success bg-danger');
+
+                    $('#liveVoteCount' + i).text(0);
+                    $('#livePercentage' + i).text('0%');
+                }
+            });
         });
         
     </script>
