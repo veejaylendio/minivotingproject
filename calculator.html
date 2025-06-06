@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <style>
+        .calculator {
+            max-width: 300px;
+            margin: 50px auto;
+        }
+        .calculator button {
+            height: 60px;
+            font-size: 20px;
+        }
+        .display {
+            height: 60px;
+            font-size: 30px;
+            text-align: right;
+            padding: 10px;
+            background-color: #f8f9fa;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <div class="display border" id="value">0</div>
+            <div class="row g-2 mb-2">
+                <div class="col-9"><button id="reset" class="btn btn-light border w-100">AC</button></div>
+                <div class="col-3"><button id="divide" class="btn btn-light border w-100">/</button></div>
+            </div>
+            <div class="row g-2 mb-2">
+                <div class="col-3"><button data-number="7" class="btn number btn-light border w-100">7</button></div>
+                <div class="col-3"><button data-number="8" class="btn number btn-light border w-100">8</button></div>
+                <div class="col-3"><button data-number="9" class="btn number btn-light border w-100">9</button></div>
+                <div class="col-3"><button id="multiply" class="btn btn-light border w-100">*</button></div>
+            </div>
+            <div class="row g-2 mb-2">
+                <div class="col-3"><button data-number="4" class="btn number btn-light border w-100">4</button></div>
+                <div class="col-3"><button data-number="5" class="btn number btn-light border w-100">5</button></div>
+                <div class="col-3"><button data-number="6" class="btn number btn-light border w-100">6</button></div>
+                <div class="col-3"><button id="minus" class="btn btn-light border w-100">-</button></div>
+            </div>
+            <div class="row g-2 mb-2">
+                <div class="col-3"><button data-number="1" class="btn number btn-light border w-100">1</button></div>
+                <div class="col-3"><button data-number="2" class="btn number btn-light border w-100">2</button></div>
+                <div class="col-3"><button data-number="3" class="btn number btn-light border w-100">3</button></div>
+                <div class="col-3"><button id="add" class="btn btn-light border w-100">+</button></div>
+            </div>
+            <div class="row g-2">
+                <div class="col-6"><button data-number="0" class="btn number btn-light border w-100">0</button></div>
+                <div class="col-3"><button data-number="." class="btn number btn-light border w-100">.</button></div>
+                <div class="col-3"><button id="equals" class="btn btn-primary w-100">=</button></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+         $(document).ready(function() {
+            let firstNumber = "";
+            let secondNumber = "";
+            let result = "";
+            let determine = false;
+            let operator = "";
+            // if user click number buttons
+            $('.number').click(function() {
+
+                if (determine === false) {
+                    firstNumber = firstNumber + $(this).data('number');
+                    $('#value').text(firstNumber);
+                } else {
+                    secondNumber = secondNumber + $(this).data('number');
+                    $('#value').text(secondNumber);
+                }
+                
+            });
+
+            $('#reset').click(function() {
+                firstNumber = "";
+                secondNumber = "";
+                determine = false;
+                operator = "";
+                result = "";
+                $('#value').text("0");
+            });
+
+            $('#add').click(function() {
+                if(firstNumber !== "" && secondNumber !== "") 
+                {
+                    result = parseFloat(firstNumber) + parseFloat(secondNumber);
+                    $('#value').text(result);
+                }
+                else if(firstNumber !== "" && secondNumber === "") 
+                {
+                    alert("Please enter a second number before performing addition.");
+                    $('#value').text("0");
+                    determine = true;
+                    operator = "add";
+                }
+            });
+
+            $('#minus').click(function() {
+                if(firstNumber !== "" && secondNumber !== "") 
+                {
+                    result = parseFloat(firstNumber) * parseFloat(secondNumber);
+                    $('#value').text(result);
+                }
+                else if(firstNumber !== "" && secondNumber === "") 
+                {
+                    alert("Please enter a second number before performing subtruction.");
+                    $('#value').text("0");
+                    determine = true;
+                    operator = "minus";
+                }
+            });
+
+            $('#divide').click(function() {
+                if(firstNumber !== "" && secondNumber !== "") 
+                {
+                    result = parseFloat(firstNumber) / parseFloat(secondNumber);
+                    $('#value').text(result);
+                }
+                else if(firstNumber !== "" && secondNumber === "") 
+                {
+                    alert("Please enter a second number before performing divition.");
+                    $('#value').text("0");
+                    determine = true;
+                    operator = "divide";
+                }
+            });
+
+            $('#multiply').click(function() {
+                if(firstNumber !== "" && secondNumber !== "") 
+                {
+                    result = parseFloat(firstNumber) * parseFloat(secondNumber);
+                    $('#value').text(result);
+                }
+                else if(firstNumber !== "" && secondNumber === "") 
+                {
+                    alert("Please enter a second number before performing multiplication.");
+                    $('#value').text("0");
+                    determine = true;
+                    operator = "multiply";
+                }
+            });
+
+            $('#equals').click(function() {
+                if (firstNumber === "" || secondNumber === "") {
+                    alert("Please enter both numbers before calculating.");
+                    return;
+                }
+                if (operator === "add")
+                {
+                    result = parseFloat(firstNumber) + parseFloat(secondNumber);
+                    $('#value').text(result);
+                }
+                else if (operator === "minus")
+                {
+                    result = parseFloat(firstNumber) - parseFloat(secondNumber);
+                    $('#value').text(result);
+                }
+                else if (operator === "divide")
+                {
+                    if 
+                        (parseFloat(secondNumber) === 0) {
+                        alert("Cannot divide by zero.");
+                        return;
+                    } 
+                    else
+                    {
+                        result = parseFloat(firstNumber) / parseFloat(secondNumber);
+                        $('#value').text(result);
+                    }
+                }else if (operator === "multiply")
+                {
+                    result = parseFloat(firstNumber) * parseFloat(secondNumber);
+                    $('#value').text(result);
+                }
+                
+            });
+        });
+    </script>
+</body>
+</html>

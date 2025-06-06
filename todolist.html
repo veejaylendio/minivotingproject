@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <style>
+        .todo-container {
+            max-width: 600px;
+            margin: 50px auto;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container todo-container">
+        <h1 class="mb-4">Todo List</h1>
+        
+        <!-- Add Todo Form -->
+        <div class="input-group mb-4">
+            <input type="text" class="form-control" id="inputedTask" placeholder="Add new task...">
+            <div class="input-group-append">
+                <button class="btn btn-primary" id="addTask" type="button">Add Task</button>
+            </div>
+        </div>
+
+        <!-- Todo List -->
+        <div class="todo-list">
+            <!-- add here task -->
+        </div>
+
+         <!-- Edit Todo List -->
+         <div class="edit-todo-list">
+            <!-- add here task -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Add task functionality
+           let task = [];
+           $('#addTask').click(function () {
+                var inputTask = $('#inputedTask').val();
+                task.push(inputTask);
+                console.log(task[0]);
+
+                $('.todo-list').empty();
+
+                for(let i = 0; i < task.length; i++) {
+                     // Clear the list before adding new tasks
+                    $('.todo-list').append(`
+                        <div class="todo-item">
+                            <div class="d-flex align-items-center">
+                                <input type="checkbox" class="mr-3">
+                                <span>${task[i]}</span>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-primary editTask" data-val="${i}">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger deleteTask" data-val="${i}">Delete</button>
+                            </div>
+                        </div>
+                    `);
+                };
+           });
+           
+           $('.todo-list').on('click', '.deleteTask', function() {
+                // console.log('delete');
+                let deleteIndex = $(this).data('val');
+                task.splice(deleteIndex, 1);
+                $('.todo-list').empty();
+                for(let i = 0; i < task.length; i++) {
+                    $('.todo-list').append(`
+                        <div class="todo-item">
+                            <div class="d-flex align-items-center">
+                                <input type="checkbox" class="mr-3">
+                                <span>${task[i]}</span>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-primary editTask" data-val="${i}">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger deleteTask" data-val="${i}">Delete</button>
+                            </div>
+                        </div>
+                    `);
+                };
+           });
+
+           $('.todo-list').on('click', '.editTask', function() {
+                console.log('edit');
+                let editIndex = $(this).data('val');
+                $('.edit-todo-list').empty(); // Clear previous edit input
+                $('.edit-todo-list').append(`
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Edit</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Default" value="${task[editIndex]}" aria-describedby="inputGroup-sizing-default">
+                        <button class="btn btn-sm btn-outline-success saveTask" data-val="${editIndex}">Save</button>
+                    </div>
+                `);
+           });
+
+           $('.edit-todo-list').on('click', '.saveTask', function() {
+                let saveIndex = $(this).data('val');
+                task[saveIndex] = $('.edit-todo-list input').val(); // Get the value from the input
+                $('.edit-todo-list').empty(); // Clear the edit input
+                $('.todo-list').empty(); // Clear the todo list
+                for(let i = 0; i < task.length; i++) {
+                    $('.todo-list').append(`
+                        <div class="todo-item">
+                            <div class="d-flex align-items-center">
+                                <input type="checkbox" class="mr-3">
+                                <span>${task[i]}</span>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-primary editTask" data-val="${i}">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger deleteTask" data-val="${i}">Delete</button>
+                            </div>
+                        </div>
+                    `);
+                };
+           });
+
+        });
+    </script>
+</body>
+</html>
+<!-- 
+click delete kuhaon ang data val sa delete then let say 1 kuhaon ang value sa task[1] then splice ang task[1] then i-update ang todo list.
+-->
